@@ -25,7 +25,7 @@ a "local network" that have been put into the "DMZ" (the "de-militarized zone") 
 
 ## Images
 
-![Screenshot 1](img\plex-screenshot1.jpg)
+![Screenshot 1](img/plex-screenshot1.jpg)
 
 ## Need help?
 
