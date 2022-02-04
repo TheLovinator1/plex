@@ -38,27 +38,19 @@ rm -rf /var/cache/*
 
 WORKDIR /usr/lib/plexmediaserver
 
-# 32400             Access to the Plex Media Server                 (Requred)
+# 32400/tcp         Access to the Plex Media Server                 (Requred)
 # 1900/udp          Plex DLNA Server                                (Optional)
 # 5353/udp          Older Bonjour/Avahi network discovery           (Optional)
-# 8324              Controlling Plex for Roku via Plex Companion    (Optional)
+# 8324/tcp          Controlling Plex for Roku via Plex Companion    (Optional)
 # 32410/udp         Current GDM network discovery                   (Optional)
 # 32412-32414/udp   Current GDM network discovery                   (Optional)
-# 32469             Plex DLNA Server                                (Optional)
+# 32469/tcp         Plex DLNA Server                                (Optional)
 #
 # Warning!: For security, we very strongly recommend that you do not allow any of these “optional” ports through
 # the firewall or to be forwarded in your router, in cases specifically where your Plex Media Server is running
 # on a machine with a public/WAN IP address. This includes those hosted in a data center as well as machines on
 # a “local network” that have been put into the “DMZ” (the “de-militarized zone”) of the network router.
-#
-
-EXPOSE 32400
-EXPOSE 1900/udp
-EXPOSE 5353/udp
-EXPOSE 8324
-EXPOSE 32410/udp
-EXPOSE 32412-32414/udp
-EXPOSE 32469
+EXPOSE 32400/tcp 1900/udp 5353/udp 8324/tcp 32410/udp 32412-32414/udp 32469/tcp
 
 VOLUME ["/media", "/var/lib/plex"]
 
