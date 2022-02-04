@@ -28,6 +28,8 @@ RUN pacman -Syu --noconfirm
 
 WORKDIR /tmp/plex
 
+# Download and extract the latest version of Plex Media Server
+# TODO: We should check checksums here.
 ADD "https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" "/tmp/plex/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm"
 RUN bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex && \
 rm "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
@@ -52,10 +54,12 @@ WORKDIR /usr/lib/plexmediaserver
 # a “local network” that have been put into the “DMZ” (the “de-militarized zone”) of the network router.
 EXPOSE 32400/tcp 1900/udp 5353/udp 8324/tcp 32410/udp 32412-32414/udp 32469/tcp
 
+# /media can be read only to be more secure.
 VOLUME ["/media", "/var/lib/plex"]
 
 USER plex
 
+# Taken from https://aur.archlinux.org/cgit/aur.git/tree/plexmediaserver.conf.d?h=plex-media-server
 ENV LD_LIBRARY_PATH=/usr/lib/plexmediaserver/lib
 ENV PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver
 ENV PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plex
@@ -63,6 +67,6 @@ ENV PLEX_MEDIA_SERVER_MAX_PLUGIN_PROCS=6
 ENV PLEX_MEDIA_SERVER_TMPDIR=/tmp
 ENV TMPDIR=/tmp
 
+# Remove .pid file if it exists.
 ADD --chown=plex:plex start.sh /start.sh
-
 CMD ["/start.sh"]
