@@ -10,13 +10,13 @@ This Docker image is using the [Arch Linux](https://hub.docker.com/_/archlinux/)
 
 | Port            | Description                                  | Required |
 | --------------- | -------------------------------------------- | -------- |
-| 32400           | Access to the Plex Media Server              | Yes      |
+| 32400/tcp       | Access to the Plex Media Server              | Yes      |
 | 1900/udp        | Plex DLNA Server                             | No       |
 | 5353/udp        | Older Bonjour/Avahi network discovery        | No       |
-| 8324            | Controlling Plex for Roku via Plex Companion | No       |
+| 8324/tcp        | Controlling Plex for Roku via Plex Companion | No       |
 | 32410/udp       | Current GDM network discovery                | No       |
 | 32412-32414/udp | Current GDM network discovery                | No       |
-| 32469           | Plex DLNA Server                             | No       |
+| 32469/tcp       | Plex DLNA Server                             | No       |
 
 Warning!: For security, we very strongly recommend that you do not allow any of these "non-required" ports through
 the firewall or to be forwarded in your router, in cases specifically where your Plex Media Server is running
