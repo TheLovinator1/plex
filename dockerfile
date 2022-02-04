@@ -2,7 +2,6 @@ FROM archlinux
 
 ARG pkgver="1.25.4.5487"
 ARG _pkgsum=648a8f9f9
-ARG source_x86_64="https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm"
 
 # Add mirrors for Sweden. You can add your own mirrors to the mirrorlist file. Should probably use reflector.
 ADD mirrorlist /etc/pacman.d/mirrorlist
@@ -25,17 +24,16 @@ useradd --system --uid 1000 --gid 1000 plex && \
 install -d -o plex -g plex -m 775 /usr/lib/plexmediaserver /var/lib/plex /tmp/plex /media
 
 # Update the system and install depends
-RUN pacman -Syu --noconfirm && pacman -S wget --noconfirm
+RUN pacman -Syu --noconfirm
 
 WORKDIR /tmp/plex
 
-RUN wget "${source_x86_64}" -O "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
-bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex && \
+ADD "https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" "/tmp/plex/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm"
+RUN bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex && \
 rm "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
 cp -dr --no-preserve='ownership' "usr/lib/plexmediaserver" "/usr/lib/" && \
 rm -rf "/tmp/plex" && \
 chown -R plex:plex /usr/lib/plexmediaserver /var/lib/plex && \
-pacman -Rsn wget --noconfirm && \
 rm -rf /var/cache/*
 
 WORKDIR /usr/lib/plexmediaserver
