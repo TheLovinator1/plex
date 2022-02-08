@@ -48,8 +48,11 @@ RUN bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex &&
 rm "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
 cp -dr --no-preserve='ownership' "usr/lib/plexmediaserver" "/usr/lib/" && \
 rm -rf "/tmp/plex" && \
-chown -R plex:plex /usr/lib/plexmediaserver /var/lib/plex && \
-rm -rf /var/cache/*
+chown -R plex:plex /usr/lib/plexmediaserver /var/lib/plex
+
+# Remove cache from pacman
+# TODO: Should we remove more things?
+RUN rm -rf /var/cache/*
 
 # Change to the directory where the Plex Media Server binary is located.
 WORKDIR /usr/lib/plexmediaserver
