@@ -1,5 +1,6 @@
 FROM archlinux
 
+# https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
 LABEL org.opencontainers.image.authors="Joakim Hellsén <tlovinator@gmail.com>" \ 
 org.opencontainers.image.url="https://github.com/TheLovinator1/docker-arch-plex" \
 org.opencontainers.image.documentation="https://github.com/TheLovinator1/docker-arch-plex" \
@@ -10,6 +11,7 @@ org.opencontainers.image.title="Plex Media Server" \
 org.opencontainers.image.description="The back-end media server component of Plex" \
 org.opencontainers.image.base.name="docker.io/library/archlinux"
 
+# https://forums.plex.tv/t/plex-media-server/30447.rss
 ARG pkgver="1.25.4.5487"
 ARG _pkgsum=648a8f9f9
 
@@ -36,6 +38,7 @@ install -d -o plex -g plex -m 775 /usr/lib/plexmediaserver /var/lib/plex /tmp/pl
 # Update the system and install depends
 RUN pacman -Syu --noconfirm
 
+# Use a temporary directory for the installation, we will remove it later.
 WORKDIR /tmp/plex
 
 # Download and extract the latest version of Plex Media Server
@@ -48,6 +51,7 @@ rm -rf "/tmp/plex" && \
 chown -R plex:plex /usr/lib/plexmediaserver /var/lib/plex && \
 rm -rf /var/cache/*
 
+# Change to the directory where the Plex Media Server binary is located.
 WORKDIR /usr/lib/plexmediaserver
 
 # 32400/tcp         Access to the Plex Media Server                 (Requred)
@@ -67,16 +71,26 @@ EXPOSE 32400/tcp 1900/udp 5353/udp 8324/tcp 32410/udp 32412-32414/udp 32469/tcp
 # /media can be read only to be more secure.
 VOLUME ["/media", "/var/lib/plex"]
 
+# Don't run as root.
 USER plex
 
 # Taken from https://aur.archlinux.org/cgit/aur.git/tree/plexmediaserver.conf.d?h=plex-media-server
+
+# Where the binaries and libraries are located.
 ENV LD_LIBRARY_PATH=/usr/lib/plexmediaserver/lib
 ENV PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver
+
+# Where Plex will store its data.
 ENV PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/var/lib/plex
+
+# The number of plugins that can run at the same time.
 ENV PLEX_MEDIA_SERVER_MAX_PLUGIN_PROCS=6
+
+# Where we will store transcodes
 ENV PLEX_MEDIA_SERVER_TMPDIR=/tmp
 ENV TMPDIR=/tmp
 
-# Remove .pid file if it exists.
+# If Plex Media Server is shut down abruptly, it can leave behind a PID file and if it exists, Plex can't start.
+# This script will remove the PID file if it exists and then start Plex.
 ADD --chown=plex:plex start.sh /start.sh
 CMD ["/start.sh"]
