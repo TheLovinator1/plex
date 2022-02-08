@@ -1,5 +1,15 @@
 FROM archlinux
 
+LABEL org.opencontainers.image.authors="Joakim Hellsén <tlovinator@gmail.com>" \ 
+org.opencontainers.image.url="https://github.com/TheLovinator1/docker-arch-plex" \
+org.opencontainers.image.documentation="https://github.com/TheLovinator1/docker-arch-plex" \
+org.opencontainers.image.source="https://github.com/TheLovinator1/docker-arch-plex" \
+org.opencontainers.image.vendor="Joakim Hellsén" \
+org.opencontainers.image.license="GPL-3.0+" \
+org.opencontainers.image.title="Plex Media Server" \
+org.opencontainers.image.description="The back-end media server component of Plex" \
+org.opencontainers.image.base.name="docker.io/library/archlinux"
+
 ARG pkgver="1.25.4.5487"
 ARG _pkgsum=648a8f9f9
 
