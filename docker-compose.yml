@@ -1,6 +1,6 @@
 services:
   plex:
-    container_name: arch-plex
+    container_name: plex
     image: ghcr.io/thelovinator1/plex:master
     # build: .
     restart: unless-stopped
