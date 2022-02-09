@@ -1,8 +1,8 @@
 services:
   plex:
     container_name: arch-plex
-    # image: plex
-    build: .
+    image: ghcr.io/thelovinator1/plex:master
+    # build: .
     restart: unless-stopped
     ports:
       - "32400:32400/tcp"
