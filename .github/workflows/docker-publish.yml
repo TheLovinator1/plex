@@ -48,13 +48,18 @@ jobs:
         with:
           images: ghcr.io/thelovinator1/plex
 
+      # We need to activate experimental to use --squash
+      - name: Enable Docker experimental
+        run: |
+          sudo rm /etc/docker/daemon.json
+          echo $'{\n    "experimental": true\n}' | sudo tee /etc/docker/daemon.json
+          sudo service docker restart
+          docker version -f '{{.Server.Experimental}}'
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+        run: |
+          docker build --squash --tag ${{ steps.meta.outputs.tags }} .
+          docker push ${{ steps.meta.outputs.tags }}
