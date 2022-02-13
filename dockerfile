@@ -1,4 +1,4 @@
-FROM archlinux
+FROM ghcr.io/thelovinator1/base:master
 
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
 LABEL org.opencontainers.image.authors="Joakim Hellsén <tlovinator@gmail.com>" \ 
@@ -15,29 +15,6 @@ org.opencontainers.image.base.name="docker.io/library/archlinux"
 ARG pkgver="1.25.4.5487"
 ARG _pkgsum=648a8f9f9
 
-# Add mirrors for Sweden. You can add your own mirrors to the mirrorlist file. Should probably use reflector.
-ADD mirrorlist /etc/pacman.d/mirrorlist
-
-# NOTE: For Security Reasons, archlinux image strips the pacman lsign key.
-# This is because the same key would be spread to all containers of the same
-# image, allowing for malicious actors to inject packages (via, for example,
-# a man-in-the-middle).
-RUN gpg --refresh-keys && pacman-key --init && pacman-key --populate archlinux
-
-# Set locale. Needed for some programs.
-# https://wiki.archlinux.org/title/locale
-RUN echo "en_US.UTF-8 UTF-8" >"/etc/locale.gen" && locale-gen && echo "LANG=en_US.UTF-8" >"/etc/locale.conf"
-
-# Create a new user with id 1000 and name "plex".
-# https://linux.die.net/man/8/useradd
-# https://linux.die.net/man/8/groupadd
-RUN groupadd --gid 1000 --system plex && \
-useradd --system --uid 1000 --gid 1000 plex && \
-install -d -o plex -g plex -m 775 /usr/lib/plexmediaserver /var/lib/plex /tmp/plex /media
-
-# Update the system and install depends
-RUN pacman -Syu --noconfirm
-
 # Use a temporary directory for the installation, we will remove it later.
 WORKDIR /tmp/plex
 
@@ -47,12 +24,10 @@ ADD "https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat
 RUN bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex && \
 rm "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
 cp -dr --no-preserve='ownership' "usr/lib/plexmediaserver" "/usr/lib/" && \
+install -d -o lovinator -g lovinator -m 775 /usr/lib/plexmediaserver /var/lib/plex /tmp/plex /media && \
+chown -R lovinator:lovinator /usr/lib/plexmediaserver /var/lib/plex && \
 rm -rf "/tmp/plex" && \
-chown -R plex:plex /usr/lib/plexmediaserver /var/lib/plex
-
-# Remove cache from pacman
-# TODO: Should we remove more things?
-RUN rm -rf /var/cache/*
+rm -rf /var/cache/*
 
 # Change to the directory where the Plex Media Server binary is located.
 WORKDIR /usr/lib/plexmediaserver
