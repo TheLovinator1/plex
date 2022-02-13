@@ -50,7 +50,7 @@ EXPOSE 32400/tcp 1900/udp 5353/udp 8324/tcp 32410/udp 32412-32414/udp 32469/tcp
 VOLUME ["/media", "/var/lib/plex"]
 
 # Don't run as root.
-USER plex
+USER lovinator
 
 # Taken from https://aur.archlinux.org/cgit/aur.git/tree/plexmediaserver.conf.d?h=plex-media-server
 
@@ -70,5 +70,5 @@ ENV TMPDIR=/tmp
 
 # If Plex Media Server is shut down abruptly, it can leave behind a PID file and if it exists, Plex can't start.
 # This script will remove the PID file if it exists and then start Plex.
-ADD --chown=plex:plex start.sh /start.sh
+ADD --chown=lovinator:lovinator start.sh /start.sh
 CMD ["/start.sh"]
