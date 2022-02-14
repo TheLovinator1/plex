@@ -61,5 +61,5 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         run: |
-          docker build --squash --tag ${{ steps.meta.outputs.tags }} .
+          docker build . --squash --tag ${{ steps.meta.outputs.tags }}
           docker push ${{ steps.meta.outputs.tags }}
