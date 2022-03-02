@@ -28,7 +28,7 @@ jobs:
       # Get the repository's code
       # https://github.com/actions/checkout
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Login to GitHub Container Registry
       # https://github.com/docker/login-action
