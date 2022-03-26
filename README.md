@@ -4,7 +4,7 @@ Plex is a media server that can stream movies, TV shows, music, and more.
 
 ## Docker
 
-This Docker image is using the [Arch Linux](https://hub.docker.com/_/archlinux/) as base image. Plex runs as a user with the id `1000`.
+This Docker image is using [Ubuntu 22.04](https://hub.docker.com/_/ubuntu/) as base image. Plex runs as a user with the id `1000`.
 
 ## Ports
 
@@ -32,4 +32,4 @@ a "local network" that have been put into the "DMZ" (the "de-militarized zone") 
 - Email: [tlovinator@gmail.com](mailto:tlovinator@gmail.com)
 - Discord: TheLovinator#9276
 - Steam: [TheLovinator](https://steamcommunity.com/id/TheLovinator/)
-- Send an issue: [docker-arch-plex/issues](https://github.com/TheLovinator1/docker-arch-plex/issues)
+- Send an issue: [plex/issues](https://github.com/feed-the-fish/plex/issues)

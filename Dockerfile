@@ -1,15 +1,14 @@
-FROM ghcr.io/thelovinator1/base:master
+FROM ubuntu:devel
 
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
-LABEL org.opencontainers.image.authors="Joakim Hellsén <tlovinator@gmail.com>" \ 
-org.opencontainers.image.url="https://github.com/TheLovinator1/docker-arch-plex" \
-org.opencontainers.image.documentation="https://github.com/TheLovinator1/docker-arch-plex" \
-org.opencontainers.image.source="https://github.com/TheLovinator1/docker-arch-plex" \
+LABEL org.opencontainers.image.authors="Joakim Hellsén <tlovinator@gmail.com>" \
+org.opencontainers.image.url="https://github.com/Feed-The-Fish/plex" \
+org.opencontainers.image.documentation="https://github.com/Feed-The-Fish/plex" \
+org.opencontainers.image.source="https://github.com/Feed-The-Fish/plex" \
 org.opencontainers.image.vendor="Joakim Hellsén" \
 org.opencontainers.image.license="GPL-3.0+" \
 org.opencontainers.image.title="Plex Media Server" \
-org.opencontainers.image.description="The back-end media server component of Plex" \
-org.opencontainers.image.base.name="docker.io/library/archlinux"
+org.opencontainers.image.description="The back-end media server component of Plex"
 
 # https://forums.plex.tv/t/plex-media-server/30447.rss
 ARG pkgver="1.25.4.5487"
@@ -20,14 +19,14 @@ WORKDIR /tmp/plex
 
 # Download and extract the latest version of Plex Media Server
 # TODO: We should check checksums here.
-ADD "https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" "/tmp/plex/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm"
-RUN bsdtar -xf "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" -C /tmp/plex && \
-rm "plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm" && \
-cp -dr --no-preserve='ownership' "usr/lib/plexmediaserver" "/usr/lib/" && \
+ADD "https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/debian/plexmediaserver_${pkgver}-${_pkgsum}_amd64.deb" "/tmp/plex/plexmediaserver_${pkgver}-${_pkgsum}_amd64.deb"
+RUN dpkg -i "plexmediaserver_${pkgver}-${_pkgsum}_amd64.deb" && \
+rm "plexmediaserver_${pkgver}-${_pkgsum}_amd64.deb" && \
+useradd --system --home /usr/lib/plexmediaserver --shell /bin/nologin lovinator && \
 install -d -o lovinator -g lovinator -m 775 /usr/lib/plexmediaserver /var/lib/plex /tmp/plex /media && \
 chown -R lovinator:lovinator /usr/lib/plexmediaserver /var/lib/plex && \
-rm -rf "/tmp/plex" && \
-rm -rf /var/cache/*
+apt-get clean && \
+rm -rf /tmp/plex /etc/default/plexmediaserver /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 # Change to the directory where the Plex Media Server binary is located.
 WORKDIR /usr/lib/plexmediaserver

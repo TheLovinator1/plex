@@ -1,8 +1,7 @@
 services:
   plex:
     container_name: plex
-    image: ghcr.io/thelovinator1/plex:master
-    # build: .
+    image: ghcr.io/feed-the-fish/plex:master
     restart: unless-stopped
     ports:
       - "32400:32400/tcp"
