@@ -46,7 +46,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ghcr.io/feed-the-fish/plex
+          images: ghcr.io/TheLovinator1/plex
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
