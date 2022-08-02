@@ -4,7 +4,8 @@ Plex is a media server that can stream movies, TV shows, music, and more.
 
 ## Docker
 
-This Docker image is using [Ubuntu 22.04](https://hub.docker.com/_/ubuntu/) as base image. Plex runs as a user with the id `1000`.
+This Docker image is using [Ubuntu 22.04](https://hub.docker.com/_/ubuntu/) as base image. Plex runs as a user with the
+id `1000`.
 
 ## Ports
 
