@@ -11,8 +11,9 @@ org.opencontainers.image.title="Plex Media Server" \
 org.opencontainers.image.description="The back-end media server component of Plex"
 
 # https://forums.plex.tv/t/plex-media-server/30447.rss
-ARG pkgver="1.25.4.5487"
-ARG _pkgsum=648a8f9f9
+# https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=plex-media-server
+ARG pkgver="1.28.2.6151"
+ARG _pkgsum=914ddd2b3
 
 # Use a temporary directory for the installation, we will remove it later.
 WORKDIR /tmp/plex

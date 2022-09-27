@@ -1,3 +1,8 @@
+# Don't use this :-)
+
+Better containers are out there, you should use [linuxserver/plex](https://github.com/linuxserver/docker-plex)
+instead.
+
 # Plex
 
 Plex is a media server that can stream movies, TV shows, music, and more.
@@ -10,7 +15,7 @@ id `1000`.
 ## Ports
 
 | Port            | Description                                  | Required |
-| --------------- | -------------------------------------------- | -------- |
+|-----------------|----------------------------------------------|----------|
 | 32400/tcp       | Access to the Plex Media Server              | Yes      |
 | 1900/udp        | Plex DLNA Server                             | No       |
 | 5353/udp        | Older Bonjour/Avahi network discovery        | No       |
@@ -32,5 +37,4 @@ a "local network" that have been put into the "DMZ" (the "de-militarized zone") 
 
 - Email: [tlovinator@gmail.com](mailto:tlovinator@gmail.com)
 - Discord: TheLovinator#9276
-- Steam: [TheLovinator](https://steamcommunity.com/id/TheLovinator/)
-- Send an issue: [plex/issues](https://github.com/feed-the-fish/plex/issues)
+- Send an issue: [plex/issues](https://github.com/TheLovinator1/plex/issues)

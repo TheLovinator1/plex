@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "platformAutomerge": true
+    }
+  ],
+  "dependencyDashboard": false,
+  "enabledManagers": [
+    "dockerfile",
+    "docker-compose",
+    "github-actions"
+  ],
+  "timezone": "Europe/Stockholm"
+}
