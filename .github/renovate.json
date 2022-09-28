@@ -12,7 +12,7 @@
         "lockFileMaintenance"
       ],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "platformAutomerge": true
     }
   ],
@@ -20,7 +20,14 @@
   "enabledManagers": [
     "dockerfile",
     "docker-compose",
+    "poetry",
     "github-actions"
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "pr",
+    "platformAutomerge": true
+  },
   "timezone": "Europe/Stockholm"
 }
